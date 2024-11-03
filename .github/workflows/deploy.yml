@@ -1,0 +1,43 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        project_id: tbqc-demo-dev
+        service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+        export_default_credentials: true
+
+    - name: Configure Docker for Artifact Registry
+      run: |
+        gcloud auth configure-docker europe-west1-docker.pkg.dev
+
+    - name: Build Docker image
+      run: |
+        IMAGE_NAME=europe-west1-docker.pkg.dev/tbqc-demo-dev/tbqc-demo-ar-application/hello-world-app
+        docker build -t $IMAGE_NAME:latest .
+    
+    - name: Push Docker image to Artifact Registry
+      run: |
+        IMAGE_NAME=europe-west1-docker.pkg.dev/tbqc-demo-dev/tbqc-demo-ar-application/hello-world-app
+        docker push $IMAGE_NAME:latest
+
+    - name: Deploy to Cloud Run
+      run: |
+        gcloud run deploy hello-world-service \
+          --image europe-west1-docker.pkg.dev/tbqc-demo-dev/tbqc-demo-ar-application/hello-world-app:latest \
+          --region europe-west1 \
+          --platform managed \
+          --allow-unauthenticated
