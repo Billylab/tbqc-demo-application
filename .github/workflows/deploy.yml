@@ -20,15 +20,9 @@ jobs:
         service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
         export_default_credentials: true
 
-    # Configure Docker to use Artifact Registry by directly setting an access token
-    - name: Authenticate Docker with Artifact Registry
-      env:
-        ACCESS_TOKEN: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+    - name: Configure Docker for Artifact Registry
       run: |
-        echo ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }} | base64 --decode > /tmp/key.json
-        gcloud auth activate-service-account --key-file=/tmp/key.json
-        ACCESS_TOKEN=$(gcloud auth print-access-token)
-        echo "{\"auths\":{\"${YOUR_REGION}-docker.pkg.dev\":{\"username\":\"oauth2accesstoken\",\"password\":\"$ACCESS_TOKEN\"}}}" > ~/.docker/config.json
+        gcloud auth configure-docker europe-west1-docker.pkg.dev
 
     - name: Build Docker image
       run: |
