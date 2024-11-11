@@ -1,0 +1,5 @@
+flask
+pandas
+pyyaml
+google-cloud-bigquery
+google-cloud-storage

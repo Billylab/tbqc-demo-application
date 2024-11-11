@@ -1,0 +1,76 @@
+{
+    "source_path": "0_landing/pubmed/pubmed",
+    "file_info": {
+      "name": "pubmed",
+      "format": {
+        "csv" : { 
+            "separator": ",",
+            "encoding": "utf-8"
+        },
+        "json" : { 
+        }
+      }
+    },
+    "schema": [
+      {
+        "expected_file_name": "id",
+        "name": "id",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "unique_identifier": true,
+        "date_format": null,
+        "float_thousand_separator": null,
+        "float_decimal_separator": null
+      },
+      {
+        "expected_file_name": "title",
+        "name": "title",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "unique_identifier": false,
+        "date_format": null,
+        "float_thousand_separator": null,
+        "float_decimal_separator": null
+      },
+      {
+        "expected_file_name": "date",
+        "name": "date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "unique_identifier": false,
+        "date_format": "%d/%m/%Y",
+        "float_thousand_separator": null,
+        "float_decimal_separator": null
+      },
+      {
+        "expected_file_name": "journal",
+        "name": "journal",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "unique_identifier": false,
+        "date_format": null,
+        "float_thousand_separator": null,
+        "float_decimal_separator": null
+      },
+      {
+        "expected_file_name": null,
+        "name": "source_filename",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "unique_identifier": false,
+        "date_format": null,
+        "float_thousand_separator": null,
+        "float_decimal_separator": null
+      },
+      {
+        "expected_file_name": null,
+        "name": "execution_datetime",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "unique_identifier": false,
+        "date_format": null,
+        "float_thousand_separator": null,
+        "float_decimal_separator": null
+      }
+    ]
+}
