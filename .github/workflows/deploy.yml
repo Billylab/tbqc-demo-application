@@ -28,18 +28,18 @@ jobs:
 
     - name: Build Docker image
       run: |
-        IMAGE_NAME=europe-west1-docker.pkg.dev/tbqc-demo-dev/tbqc-demo-ar-application/hello-world-app
+        IMAGE_NAME=europe-west1-docker.pkg.dev/tbqc-demo-dev/tbqc-demo-ar-application/landing-to-raw
         docker build -t $IMAGE_NAME .
     
     - name: Push Docker image to Artifact Registry
       run: |
-        IMAGE_NAME=europe-west1-docker.pkg.dev/tbqc-demo-dev/tbqc-demo-ar-application/hello-world-app
+        IMAGE_NAME=europe-west1-docker.pkg.dev/tbqc-demo-dev/tbqc-demo-ar-application/landing-to-raw
         docker push $IMAGE_NAME
 
     - name: Deploy to Cloud Run
       run: |
         gcloud run deploy hello-world-service \
-          --image europe-west1-docker.pkg.dev/tbqc-demo-dev/tbqc-demo-ar-application/hello-world-app:latest \
+          --image europe-west1-docker.pkg.dev/tbqc-demo-dev/tbqc-demo-ar-application/landing-to-raw:latest \
           --region europe-west1 \
           --platform managed \
           --allow-unauthenticated
