@@ -1,10 +1,10 @@
 {
-    "source_path": "0_landing/clinical_trials/clinical_trials",
+    "source_path": "clinical_trials/clinical_trials",
     "file_info": {
       "name": "clinical_trials",
       "format": {
         "csv" : { 
-            "separator": ",",
+            "separator": ";",
             "encoding": "utf-8"
         },
         "json" : { 

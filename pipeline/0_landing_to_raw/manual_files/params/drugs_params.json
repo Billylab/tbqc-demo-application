@@ -1,10 +1,10 @@
 {
-    "source_path": "0_landing/drugs/drugs",
+    "source_path": "drugs/drugs",
     "file_info": {
       "name": "drugs",
       "format": {
         "csv" : { 
-            "separator": ",",
+            "separator": ";",
             "encoding": "utf-8"
         },
         "json" : { 

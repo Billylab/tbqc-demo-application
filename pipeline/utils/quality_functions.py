@@ -1,6 +1,7 @@
 import logging
 import pandas as pd
 import io
+import os
 import re
 import datetime
 import json
@@ -70,10 +71,7 @@ def check_files(pipeline_name:str, dataset_name: str, table_name:str, blob:str, 
     col_to_ignore = ['source_filename', 'execution_datetime']
     col_names_to_check = schema_df[~schema_df.name.isin(col_to_ignore)].expected_file_name.to_list()
 
-    # Get file format
-    m = re.search(f'{params.get("source_path")}.(.*)', blob.name)
-    if m:
-        file_format = m.group(1)
+    file_format = os.path.splitext(blob.name)[1].lstrip('.')
 
     if file_format == 'csv':
         print(f"file format is {file_format}")
@@ -93,26 +91,26 @@ def check_files(pipeline_name:str, dataset_name: str, table_name:str, blob:str, 
         csv_content = blob.download_as_string()
         try:
             df = pd.read_csv(filepath_or_buffer=io.BytesIO(csv_content), dtype=str, encoding=encoding, sep=separator)
-        except: 
-            print(f"Error when reading the CSV file :'{blob.name}'")
+        except Exception as e:
+            print(f"Error when reading the CSV file :'{blob.name}' : {e}")
             error_file = True
-            description = 'Error when reading the CSV file'
+            description = f'Error when reading the CSV file : {e}'
     if file_format == 'xlsx' or file_format == 'xlsm':
         excel_content = blob.download_as_bytes()
         try:
             df = pd.read_excel(io=excel_content, sheet_name=sheet_name, engine='openpyxl', usecols=data_columns, skiprows=data_from_rows, dtype=str)
         except: 
-            print(f"Error when reading the Excel file :'{blob.name}'")
+            print(f"Error when reading the Excel file :'{blob.name}' : {e}")
             error_file = True
-            description = 'Error when reading the Excel file'
+            description = f'Error when reading the Excel file : {e}'
     if file_format == 'json':
         json_content = blob.download_as_string()
         try : 
             df = pd.read_json(path_or_buf=io.BytesIO(json_content))
         except: 
-            print(f"Error when reading the JSON file :'{blob.name}'")
+            print(f"Error when reading the JSON file :'{blob.name}' : {e}")
             error_file = True
-            description = 'Error when reading the JSON file'
+            description = f'Error when reading the JSON file : {e}'
 
     if error_file == False:
         print("df.columns.tolist()", df.columns.tolist())
@@ -297,7 +295,7 @@ def check_rows(pipeline_name:str, dataset_name: str, table_name:str, filename:st
     schema_df = pd.DataFrame(schema_json)
 
     required_columns = schema_df[schema_df["mode"]=="REQUIRED"]["name"].to_list()
-    key_columns = schema_df[schema_df["unique_identifier"]=="TRUE"]["name"].to_list()
+    key_columns = schema_df[schema_df["unique_identifier"]==True]["name"].to_list()
 
     columns_name_cleaned = schema_df.name.to_list()
     columns_name_cleaned_index = ['index']

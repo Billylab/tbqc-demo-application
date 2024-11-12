@@ -1,10 +1,10 @@
 {
-    "source_path": "0_landing/pubmed/pubmed",
+    "source_path": "pubmed/pubmed",
     "file_info": {
       "name": "pubmed",
       "format": {
         "csv" : { 
-            "separator": ",",
+            "separator": ";",
             "encoding": "utf-8"
         },
         "json" : { 

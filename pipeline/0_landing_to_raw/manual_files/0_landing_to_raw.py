@@ -25,7 +25,7 @@ from utils.quality_functions import quality_validation_to_gcs, quality_stats_gcs
 from utils.gcs_to_bq_functions import gcs_to_bq_load
 from utils.utils_functions import read_file_csv_length
 
-ENV = "test01"
+ENV = "dev"
 
 # --------------------------------------------------------------------------------
 # Fetch YAML pipeline arguments
@@ -38,13 +38,13 @@ with open(f'pipeline/0_landing_to_raw/manual_files/config.yml') as file:
 TABLES = config.get('tables')
 
 # Data Quality
-DQ_GCS_PROJECT_ID = ENV + config.get('data_quality').get('gcs_project_id')
+DQ_GCS_PROJECT_ID = config.get('data_quality').get('gcs_project_id') + ENV
 DQ_GCS_DATA_PATH = config.get('data_quality').get('gcs_data_path')
 DQ_GCS_FILE_STATS_FILE_NAME = config.get('data_quality').get('gcs_file_stats_filename')
 DQ_GCS_ROWS_STATS_FILE_NAME = config.get('data_quality').get('gcs_rows_stats_filename')
 DQ_GCS_DATA_INVALID_FILE_NAME = config.get('data_quality').get('gcs_data_invalid_filename')
 
-DQ_BQ_PROJECT_ID = ENV + config.get('data_quality').get('bq_project_id')
+DQ_BQ_PROJECT_ID = config.get('data_quality').get('bq_project_id') + ENV
 DQ_BQ_DATASET_NAME = config.get('data_quality').get('bq_dataset_name')
 DQ_BQ_FILE_STATS_TABLE_NAME = config.get('data_quality').get('bq_file_stats_table_name')
 DQ_BQ_ROWS_STATS_TABLE_NAME = config.get('data_quality').get('bq_rows_stats_table_name')
@@ -79,17 +79,17 @@ def fun_gcs_data_valid_to_bq(source_project_id, source_bucket_name, source_path,
     else :
         print(f"File {source_path}{filename}.csv has no line.")
 
-    gcs_delete_list_blobs(project_id=source_project_id, bucket_name=source_bucket_name, source_path=source_path, file_prefix=f'{filename}.csv')
+    # gcs_delete_list_blobs(project_id=source_project_id, bucket_name=source_bucket_name, source_path=source_path, file_prefix=f'{filename}.csv')
 
 ###### Start of Local Test #######
 
 for table in TABLES :    
 
     to_request = TABLES.get(table).get('to_request')
-    source_gcs_project_id = ENV + TABLES.get(table).get('source_gcs_project_id')
+    source_gcs_project_id = TABLES.get(table).get('source_gcs_project_id') + ENV
     source_gcs_bucket_name = TABLES.get(table).get('source_gcs_bucket_name')
     source_file_params = TABLES.get(table).get('source_file_params')
-    destination_bq_project_id = ENV + TABLES.get(table).get('destination_bq_project_id')
+    destination_bq_project_id = TABLES.get(table).get('destination_bq_project_id') + ENV
     destination_bq_dataset_name = TABLES.get(table).get('destination_bq_dataset_name')
     destination_bq_table_name = TABLES.get(table).get('destination_bq_table_name')
     write_mode = TABLES.get(table).get('write_mode')
@@ -156,5 +156,5 @@ for table in TABLES :
             destination_dataset_name=destination_bq_dataset_name, 
             destination_table_name=destination_bq_table_name, 
             schema=params.get('schema'), 
-            write_mode='TRUNCATE'
+            write_mode=write_mode
         )
