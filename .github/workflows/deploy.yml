@@ -38,7 +38,7 @@ jobs:
 
     - name: Deploy to Cloud Run
       run: |
-        gcloud run deploy hello-world-service \
+        gcloud run deploy landing-to-raw \
           --image europe-west1-docker.pkg.dev/tbqc-demo-dev/tbqc-demo-ar-application/landing-to-raw:latest \
           --region europe-west1 \
           --platform managed \
