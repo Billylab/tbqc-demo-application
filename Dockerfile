@@ -1,17 +1,20 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim
-
-# Set the working directory in the container
+FROM golang:1.13 as builder
 WORKDIR /app
+COPY invoke.go ./
+RUN CGO_ENABLED=0 GOOS=linux go build -v -o server
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+FROM python:3.9.9
+USER root
 
-# Install any needed packages specified in requirements.txt
-RUN pip install -r requirements.txt
+# Set working directory
+WORKDIR /tbqc_demo_application
 
-# Make port 8080 available to the world outside this container
-EXPOSE 8080
+# Copy files to the image
+COPY --from=builder /app/server ./
+COPY script.sh ./
+COPY pipeline ./pipeline
 
-# Run app.py when the container launches
-CMD ["python", "main.py"]
+# Install librairies
+RUN pip install -r /tbqc_demo_application/pipeline/requirements.txt
+
+ENTRYPOINT "./server"
