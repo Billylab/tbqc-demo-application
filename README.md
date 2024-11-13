@@ -49,6 +49,8 @@ To modify or add new data quality rules, update the JSON configuration file and 
 
 ## Data Quality Checks
 
+![Data Quality Checks](images/data-quality-checks.png)
+
 The application performs the following checks on each CSV file:
 
 1. **File Format Check**: Ensures the file is in a readable CSV format.
