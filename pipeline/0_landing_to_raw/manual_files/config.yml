@@ -11,7 +11,7 @@ tables:
     destination_bq_table_name: 'clinical_trials'
     write_mode: 'TRUNCATE'
   drugs: 
-    to_request: True
+    to_request: False
     source_gcs_project_id: 'tbqc-demo-'
     source_gcs_bucket_name: 'tbqc-demo-landing-bucket'
     source_file_params: 'pipeline/0_landing_to_raw/manual_files/params/drugs_params.json'
@@ -20,7 +20,7 @@ tables:
     destination_bq_table_name: 'drugs'
     write_mode: 'TRUNCATE'
   pubmed: 
-    to_request: True
+    to_request: False
     source_gcs_project_id: 'tbqc-demo-'
     source_gcs_bucket_name: 'tbqc-demo-landing-bucket'
     source_file_params: 'pipeline/0_landing_to_raw/manual_files/params/pubmed_params.json'
