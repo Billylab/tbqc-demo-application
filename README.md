@@ -18,6 +18,8 @@ The primary function of this application is to perform data quality checks on CS
 
 ## Overview
 
+![Overview](images/overview.png)
+
 The application performs data quality checks on CSV files in a GCS bucket (`tbqc-demo-landing-bucket`), generates reports, and ingests valid data into BigQuery. Key actions include:
 
 1. Validating file format and readability.
