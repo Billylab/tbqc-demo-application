@@ -18,6 +18,8 @@ The primary function of this application is to perform data quality checks on CS
 
 ## Overview
 
+![Data](images/data.png)
+
 ![Overview](images/overview.png)
 
 The application performs data quality checks on CSV files in a GCS bucket (`tbqc-demo-landing-bucket`), generates reports, and ingests valid data into BigQuery. Key actions include:
@@ -40,6 +42,8 @@ The application performs data quality checks on CSV files in a GCS bucket (`tbqc
 
 
 ## Configuration
+
+![Configuration](images/configuration-file.png)
 
 Data quality rules and configurations are defined in a JSON configuration file. This file specifies:
 
@@ -67,10 +71,20 @@ The application performs the following checks on each CSV file:
 After processing each file, the application generates the following data quality files, which are stored in BigQuery under the dataset `99_data_quality`:
 
 1. **file_stats**: Records the status of each ingested file (valid/invalid).
+
+![File Stats](images/file-stats.png)
+
 2. **rows_stats**: Summarizes the number of valid and invalid rows per ingested file based on the quality checks.
+
+![Rows Stats](images/rows-stats.png)
+
 3. **data_invalid**: Contains detailed information about each invalid row and the reason for its invalidity.
 
+![Data Invalid](images/data-invalid.png)
+
 All valid data rows from processed files are stored in the `1_raw` dataset in BigQuery.
+
+![Data Valid](images/data-valid.png)
 
 ## Getting Started
 
